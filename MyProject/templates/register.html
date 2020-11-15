@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}登录{% endblock %}</title>
-    {% block css %}
+{% extends 'index.html' %}
+{% block title %}注册{% endblock %}
+{% block css %}
     <style type="text/css">
         body {
             background-image: url("../static/timg1.jpeg");
@@ -27,21 +24,18 @@
             margin-left: 35%;
             padding: 1%;
             width: 25%;
-            height: 140px;
+            height: 160px;
         }
     </style>
-    {% endblock %}
-</head>
-<body>
-{% block body %}
-<h1 id="title">番剧推荐登录</h1>
-<div id="form">
-    <form action="/search" method="post">
-        <p>账号：<input type="text" name="user_id"></p>
-        <p>密码：<input type="password" name="password"></p>
-        <pre><a href="/register">注册</a>     <input type="submit" value="登录"></pre>
-    </form>
-</div>
 {% endblock %}
-</body>
-</html>
+{% block body %}
+    <h1 id="title">番剧推荐注册</h1>
+    <div id="form">
+        <form action="/search" method="post">
+            <p>账号：<input type="text" name="user_id"></p>
+            <p>密码：<input type="password" name="password"></p>
+            <p>确认密码：<input type="password" name="repassword"></p>
+            <pre><input type="submit" value="注册"></pre>
+        </form>
+    </div>
+{% endblock %}

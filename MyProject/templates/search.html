@@ -4,36 +4,51 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style type="text/css">
-        .videoshow{
+        body {
+            background-image: url("../static/timg1.jpeg");
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-size: 100%;
+        }
+
+        .videoshow {
             background-color: red;
             border-bottom: 5px solid #EFEFEF;
             padding: 20px 10% 20px 20px;
             margin: 30px 30px;
         }
-        #body{
+
+        #body {
             background-color: aqua;
-            text-align:center;
+            text-align: center;
+            margin-top: 10%;
         }
-        #content{
-            background-color: blue;
+
+        #head {
+            font-size: 30px;
         }
+
     </style>
 </head>
 <body>
-    <div id="body">
-        <form name="input" action="/search" method="get">
-            <br/><br/>User Number<br>
-            <input type="text" name="user_id" /><br><br>
-            <input type="submit" value="Search" />
-        </form>
-        <br/><br/>
-        <div class="videoshow">
-            <p><h2 style="text-align: center">推荐番剧</h2></p>
-            {% for foo in  %}
-            <p class="title">名称：</p>
-            <p class="Introduction">简介：</p>
-            {% endfor %}
-        </div>
+<div id="head">
+    <pre>欢迎{{ user.name }}     <a href="index.html">退出</a></pre>
+</div>
+<div id="body">
+    <form name="input" action="/search" method="get">
+        <br/><br/>User Number<br>
+        <input type="text" name="user_id"/><br><br>
+        <input type="submit" value="Search"/>
+    </form>
+    <br/><br/>
+    <div class="videoshow">
+        <p>
+        <h2 style="text-align: center">推荐番剧</h2></p>
+        {% for anime in animes %}
+            <p class="title">名称：{{ anime.name }}</p>
+            <p class="Introduction">简介：{{ anime.brief }}</p>
+        {% endfor %}
     </div>
+</div>
 </body>
 </html>
