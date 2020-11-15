@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style type='test/css'>
-            #body{
-                text-align: center;
-            }
-            #content{
-                margin-left: 25%;
-            }
-        </style>
-    </head>
-    <body>
-        <div id='body'>
-            <form name='input' action='/search' method='get'>
-                <br/><br/>User ID <br>
-                <input type='text' name='user_id'/><br><br>
-                <input type='submit' value='Submit'/>
-            </form>
-        </div>
-    </body>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style type="text/css">
+        body{
+            background-image: url("../static/timg1.jpeg");
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-size: 100%;
+        }
+        #title{
+            font-family: 宋体;
+            font-size: 50px;
+            text-align: center;
+            margin-top: 12.5%;
+        }
+        #form{
+            border: white solid 5px;
+            border-radius: 10px;
+            background: red;
+            height: 100px;
+            text-align: center;
+            margin-left: 37.5%;
+            padding-top: 50px;
+            width: 25%;
+            height: 120px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">番剧推荐登录</h1>
+    <div id="form">
+        <form action="/search" method="post">
+            账号：<input type="text" name="user_id"><br>
+            密码：<input type="password" name="password"><br><br>
+            <input type="submit" value="登录">
+        </form>
+    </div>
+
+</body>
 </html>

@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <title>Recommend</title>
-        <style type="text/css">
-            .videoshow{
-                border-bottom: 5px solid #EFEFEF;
-                padding: 20px 10% 20px 20px;
-                margin: 30px 25% 30px 5%;
-            }
-            #body{
-                text-align:center;
-            }
-            #content{
-                margin-left:25%;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="body">
-            <form name="input" action="/search" method="get">
-                <br/><br/>User Number<br>
-                <input type="text" name="user_id" /><br><br>
-                <input type="submit" value="Search" />
-            </form>
-            <br/><br/>
-            <div id="content">
-                <div class="videoshow">
-                    <p><h2>推荐番剧</h2></p>
-                    <p class="title">名称：</p>
-                    <p class="Introduction">简介：</p>
-                </div>
-            </div>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .videoshow{
+            background-color: red;
+            border-bottom: 5px solid #EFEFEF;
+            padding: 20px 10% 20px 20px;
+            margin: 30px 30px;
+        }
+        #body{
+            background-color: aqua;
+            text-align:center;
+        }
+        #content{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="body">
+        <form name="input" action="/search" method="get">
+            <br/><br/>User Number<br>
+            <input type="text" name="user_id" /><br><br>
+            <input type="submit" value="Search" />
+        </form>
+        <br/><br/>
+        <div class="videoshow">
+            <p><h2 style="text-align: center">推荐番剧</h2></p>
+            {% for foo in  %}
+            <p class="title">名称：</p>
+            <p class="Introduction">简介：</p>
+            {% endfor %}
         </div>
-    </body>
+    </div>
+</body>
 </html>

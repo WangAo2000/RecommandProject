@@ -8,9 +8,9 @@ def hello_world():
     return render_template('index.html')
 
 
-@app.route('/search')
+@app.route('/search', methods=['GEI', 'POST'])
 def search():
-    return render_template('search.html')
+    return render_template('search1.html')
 
 
 if __name__ == '__main__':
