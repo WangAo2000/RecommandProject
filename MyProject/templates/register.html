@@ -31,11 +31,11 @@
 {% block body %}
     <h1 id="title">番剧推荐注册</h1>
     <div id="form">
-        <form action="/" method="post">
-            <p>账号：<input type="text" name="user_id"></p>
+        <form action="/register" method="post">
+            <p>账号：<input type="text" name="username"></p>
             <p>密码：<input type="password" name="password"></p>
             <p>确认密码：<input type="password" name="repassword"></p>
-            <pre><input type="submit" value="注册"></pre>
+            <pre>{{ msg }}<br><input type="submit" value="注册"></pre>
         </form>
     </div>
 {% endblock %}
