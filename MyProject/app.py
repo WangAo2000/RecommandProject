@@ -11,18 +11,24 @@ def register():
         username = request.form.get('usename')
         password = request.form.get('password')
         repassword = request.form.get('repassword')
-        msg = '密码不正确'
-        if password == repassword:
+        msg = '密码或账号不正确'
+        if password == repassword and username != '' and len(password) >= 6:
             return redirect('/register_succeed')
         else:
             return render_template('register.html', msg=msg)
-    if request.method == 'GET':
-        return render_template('register.html')
     return render_template('register.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+        user1 = Users(1, '小明', '123456')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == user1.username and password == user1.password:
+            return render_template('search.html', username=user1.username)
+        else:
+            return render_template('index.html', msg='账号或密码不正确')
     return render_template('index.html')
 
 
@@ -33,14 +39,13 @@ def register_succeed():
     return render_template('register_succeed.html')
 
 
-@app.route('/search', methods=['GEI', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    user1 = Users(1, '小明', '123456')
-    username = request.form.get('username')
-    password = request.form.get('password')
-    if username == user1.username and password == user1.password:
-        return render_template('search.html', user=user1)
-    return render_template('index.html', msg='账号或密码不正确')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        user_id = request.form.get('user_id')
+        return render_template('search.html', username=username)
+    return render_template('search.html', user='')
 
 
 if __name__ == '__main__':

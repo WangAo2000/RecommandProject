@@ -12,16 +12,20 @@
         }
 
         .videoshow {
-            background-color: red;
+            background-color: aqua;
             border-bottom: 5px solid #EFEFEF;
             padding: 20px 10% 20px 20px;
-            margin: 30px 30px;
+            margin: 20px 30px;
+            height: 350px;
         }
 
         #body {
-            background-color: aqua;
+            border: white solid 5px;
+            border-radius: 10px;
+            background-color: cadetblue;
             text-align: center;
-            margin-top: 10%;
+            margin-top: 5%;
+            height: 600px;
         }
 
         #head {
@@ -29,28 +33,44 @@
             margin-top: 0;
         }
 
+        .anime_class {
+            float: left;
+            background-color: red;
+            margin:  5px 20px;
+            width: 30%;
+            height: 250px;
+        }
+
     </style>
 </head>
 <body>
 <div id="head">
-    <pre>欢迎 {{ user.username }}       <a href="/">退出</a></pre>
+    <pre>欢迎 {{ username }}       <a href="/">退出</a></pre>
 </div>
 <div id="body">
-    <form name="input" action="/search" method="get">
+    <form name="input" action="/search" method="post">
         <br/><br/>User Number<br>
+        <input type="hidden" name="username" value="{{ username }}"/>
         <input type="text" name="user_id"/><br><br>
-        <input type="submit" value="Search"/>
+        <input type="submit" value="搜索"/>
     </form>
     <br/><br/>
     <div class="videoshow">
         <p>
         <h2 style="text-align: center">推荐番剧</h2></p>
-        {% for anime in animes %}
-            <p class="title">名称：{{ anime.name }}</p>
-            <p class="Introduction">简介：{{ anime.brief }}</p>
-        {% endfor %}
+        <div class="anime_class">
+            <p class="title">名称：</p>
+            <p class="Introduction">简介：</p>
+        </div>
+        <div class="anime_class">
+            <p class="title">名称：</p>
+            <p class="Introduction">简介：</p>
+        </div>
+        <div class="anime_class">
+            <p class="title">名称：</p>
+            <p class="Introduction">简介：</p>
+        </div>
     </div>
 </div>
-<a href="url_for('index')">返回登录</a>
 </body>
 </html>

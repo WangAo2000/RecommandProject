@@ -32,9 +32,9 @@
     <h1 id="title">番剧推荐注册</h1>
     <div id="form">
         <form action="/register" method="post">
-            <p>账号：<input type="text" name="username"></p>
-            <p>密码：<input type="password" name="password"></p>
-            <p>确认密码：<input type="password" name="repassword"></p>
+            <p>账号：<input type="text" name="username" placeholder="请输入账号"></p>
+            <p>密码：<input type="password" name="password" placeholder="请输入至少6位数的密码"></p>
+            <p>确认密码：<input type="password" name="repassword" placeholder="请重新输入密码"></p>
             <pre>{{ msg }}<br><input type="submit" value="注册"></pre>
         </form>
     </div>
