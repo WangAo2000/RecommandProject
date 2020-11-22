@@ -45,12 +45,12 @@
 </head>
 <body>
 <div id="head">
-    <pre>欢迎 {{ username }}       <a href="/">退出</a></pre>
+    <pre>欢迎 {{ user.username }}       <a href="/?username={{ user.username }}">退出</a></pre>
 </div>
 <div id="body">
     <form name="input" action="/search" method="post">
         <br/><br/>User Number<br>
-        <input type="hidden" name="username" value="{{ username }}"/>
+        <input type="hidden" name="username" value="{{ user.username }}"/>
         <input type="text" name="user_id"/><br><br>
         <input type="submit" value="搜索"/>
     </form>
