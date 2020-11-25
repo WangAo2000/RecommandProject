@@ -67,7 +67,11 @@ def index():
                 if username == user1.username and password == user1.password:
                     session['username'] = username
                     session['password'] = password
-                    return render_template('search.html', user=user1)
+                    # 查找影片
+                    sql = 'select * from movies;'
+                    cursor.execute(sql)
+                    movies = cursor.fetchall()
+                    return render_template('search.html', user=user1, movies=movies)
             else:
                 return render_template('index.html', msg='账号或密码不正确')
     return render_template('index.html', user='')
@@ -89,4 +93,3 @@ def search():
 
 if __name__ == '__main__':
     app.run(debug=True)
-

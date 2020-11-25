@@ -3,9 +3,13 @@ import pymysql
 
 conn = pymysql.connect(host='localhost', user='root', password='000000', database='recommend', charset='utf8')
 cursor = conn.cursor()
-sql = "insert into users values ('xiaoming', '123456')"
-
+# sql = "insert into users values ('xiaoming', '123456')"
+sql = "select * from movies;"
 cursor.execute(sql)
+movies = cursor.fetchall()
+print(movies)
+for movie in movies:
+    print(movie[4])
 conn.commit()
 # a = cursor.fetchone()
 # result = cursor.fetchall()

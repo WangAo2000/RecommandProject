@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>搜索番剧</title>
     <style type="text/css">
         body {
             background-image: url("../static/timg1.jpeg");
             background-repeat: no-repeat;
-            background-attachment: scroll;
+            background-attachment: fixed;
             background-size: 100%;
         }
 
@@ -16,7 +16,7 @@
             border-bottom: 5px solid #EFEFEF;
             padding: 20px 10% 20px 20px;
             margin: 20px 30px;
-            height: 350px;
+            height: auto;
         }
 
         #body {
@@ -25,7 +25,7 @@
             background-color: cadetblue;
             text-align: center;
             margin-top: 5%;
-            height: 600px;
+            height: auto;
         }
 
         #head {
@@ -36,10 +36,18 @@
         }
 
         .anime_class {
-            float: left;
+            display: inline-grid;
             margin: 5px 20px;
-            width: 30%;
-            height: 250px;
+            width: 25%;
+            height: auto;
+            border: #EFEFEF 3px solid;
+            border-radius: 3px;
+            background-color: dodgerblue;
+        }
+
+        #image {
+            width: 150px;
+            height: 200px;
         }
 
     </style>
@@ -59,18 +67,16 @@
     <div class="videoshow">
         <p>
         <h2 style="text-align: center">推荐番剧</h2></p>
-        <div class="anime_class">
-            <p class="title">名称：</p>
-            <p class="Introduction">简介：</p>
-        </div>
-        <div class="anime_class">
-            <p class="title">名称：</p>
-            <p class="Introduction">简介：</p>
-        </div>
-        <div class="anime_class">
-            <p class="title">名称：</p>
-            <p class="Introduction">简介：</p>
-        </div>
+    <div>
+        {% for moviename,brief,type,path,image in movies %}
+            <div class="anime_class">
+                <a href="{{ path }}" target="_blank">
+                    <img id="image" src="{{ image }}">
+                    <p class="title">{{ moviename }}</p>
+                </a>
+                <p class="Introduction">简介：{{ brief[0:100] }}...</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 </body>
