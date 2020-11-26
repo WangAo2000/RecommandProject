@@ -36,6 +36,7 @@
         }
 
         .anime_class {
+            padding-top: 20px;
             display: inline-grid;
             margin: 5px 20px;
             width: 25%;
@@ -59,25 +60,28 @@
 <div id="body">
     <form name="input" action="/search" method="post">
         <br/><br/>User Number<br>
-        <input type="hidden" name="username" value="{{ user.username }}"/>
-        <input type="text" name="user_id"/><br><br>
+        <input type="text" name="moviename"/><br><br>
         <input type="submit" value="搜索"/>
     </form>
     <br/><br/>
     <div class="videoshow">
         <p>
         <h2 style="text-align: center">推荐番剧</h2></p>
-    <div>
-        {% for moviename,brief,type,path,image in movies %}
-            <div class="anime_class">
-                <a href="{{ path }}" target="_blank">
-                    <img id="image" src="{{ image }}">
-                    <p class="title">{{ moviename }}</p>
-                </a>
-                <p class="Introduction">简介：{{ brief[0:100] }}...</p>
-            </div>
-        {% endfor %}
+        <div>
+            {% if  movies %}
+                {% for moviename,brief,type,path,image in movies %}
+                    <div class="anime_class">
+                        <a href="{{ path }}" target="_blank">
+                            <img id="image" src="{{ image }}">
+                            <p class="title">{{ moviename }}</p>
+                        </a>
+                        <p class="Introduction">简介：{{ brief[0:100] }}...</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="height: 300px;padding-top: 150px"><h3>没有找到相应的结果</h3></div>
+            {% endif %}
+        </div>
     </div>
-</div>
 </body>
 </html>

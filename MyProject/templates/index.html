@@ -36,7 +36,7 @@
 {% block body %}
 <h1 id="title">番剧推荐登录</h1>
 <div id="form">
-    <form action="/" method="post">
+    <form action="/login" method="post">
         <p>账号：<input type="text" name="username" placeholder="请输入账号" value="{{ user.username }}"></p>
         <p>密码：<input type="password" name="password" placeholder="请输入密码" ></p>
         <pre>{{ msg }}<br><a href="/register">注册</a>     <input type="submit" value="登录"></pre>

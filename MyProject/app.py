@@ -4,6 +4,7 @@ from connect_database import Database
 
 app = Flask(__name__)
 app.secret_key = 'this is a secret key'
+vaild_path = ['/register_succeed', '/search']
 
 
 @app.before_request
@@ -19,9 +20,12 @@ def before_request():
                 user = cursor.fetchone()
                 user1 = Users(user[0], user[1])
                 g.user = user1
-            return render_template('search.html', user=g.user)
+                sql = "select movies.moviename,brief,type,path,image from movies join user_movie on movies.moviename=user_movie.moviename where username='%s';" % g.user.username
+                cursor.execute(sql)
+                movies = cursor.fetchall()
+                g.movies = movies
         else:
-            if request.path == url_for('search') or request.path == url_for('register_succeed'):
+            if request.path in vaild_path:
                 return redirect(url_for('index'))
 
 
@@ -53,6 +57,11 @@ def register():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    return render_template('index.html', user='')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -67,13 +76,14 @@ def index():
                 if username == user1.username and password == user1.password:
                     session['username'] = username
                     session['password'] = password
-                    # 查找影片
-                    sql = 'select * from movies;'
+                    sql = "select movies.moviename,brief,type,path,image from movies join user_movie on movies.moviename=user_movie.moviename where username='%s';" % user1.username
                     cursor.execute(sql)
                     movies = cursor.fetchall()
                     return render_template('search.html', user=user1, movies=movies)
+                else:
+                    return render_template('index.html', msg='账号或密码不正确', user='')
             else:
-                return render_template('index.html', msg='账号或密码不正确')
+                return render_template('index.html', msg='账号或密码不正确', user='')
     return render_template('index.html', user='')
 
 
@@ -85,10 +95,14 @@ def register_succeed():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        username = request.form.get('username')
-        user_id = request.form.get('user_id')
-        return render_template('search.html', username=username)
-    return render_template('search.html', user=g.user)
+        moviename = request.form.get('moviename')
+        # 查找影片名或影片类型
+        with Database('recommend') as cursor:
+            sql = "select * from movies where moviename='%s' or type='%s'" % (moviename, moviename)
+            cursor.execute(sql)
+            movies = cursor.fetchall()
+        return render_template('search.html', user=g.user, movies=movies)
+    return render_template('search.html', user=g.user, movies=g.movies)
 
 
 if __name__ == '__main__':
