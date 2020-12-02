@@ -29,7 +29,7 @@ def before_request():
                       "and type=" \
                       "(select type from movies " \
                       "join user_movie on movies.moviename=user_movie.moviename " \
-                      "where username='%s' ORDER BY record LIMIT 1)limit 3;"\
+                      "where username='%s' ORDER BY record desc LIMIT 1)limit 3;"\
                       % (g.user.username, g.user.username)
                 cursor.execute(sql)
                 movies = cursor.fetchall()
@@ -95,8 +95,8 @@ def login():
                           "and type=" \
                           "(select type from movies " \
                           "join user_movie on movies.moviename=user_movie.moviename " \
-                          "where username='%s' ORDER BY record LIMIT 1)limit 3;" \
-                          % (g.user.username, g.user.username)
+                          "where username='%s' ORDER BY record desc LIMIT 1)limit 3;" \
+                          % (username, username)
                     cursor.execute(sql)
                     movies = cursor.fetchall()
                     return render_template('search.html', user=user1, movies=movies)
