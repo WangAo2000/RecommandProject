@@ -71,7 +71,8 @@
             {% if  movies %}
                 {% for moviename,brief,type,path,image in movies %}
                     <div class="anime_class">
-                        <a href="{{ path }}" target="_blank">
+                        <a href="{{ url_for('movie_brief') }}?moviename={{ moviename }}&username={{ user.username }}"
+                           target="_blank">
                             <img id="image" src="{{ image }}">
                             <p class="title">{{ moviename }}</p>
                         </a>
@@ -83,5 +84,6 @@
             {% endif %}
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -13,3 +13,12 @@ class Database(object):
         self.conn.commit()
         self.cursor.close()
         self.conn.close()
+
+
+class Users(object):
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+    def __str__(self):
+        print(self.username)

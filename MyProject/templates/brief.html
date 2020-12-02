@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索番剧</title>
+    <style type="text/css">
+        body {
+            background-image: url("../static/timg1.jpeg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+
+        .videoshow {
+            background-color: aqua;
+            border-bottom: 5px solid #EFEFEF;
+            padding: 20px 10% 20px 20px;
+            margin: 20px 30px;
+            height: auto;
+        }
+
+        #body {
+            border: white solid 5px;
+            border-radius: 10px;
+            background-color: cadetblue;
+            text-align: left;
+            margin-top: 5%;
+            height: auto;
+        }
+
+        #head {
+            margin-top: 0;
+            background-color: cornflowerblue;
+            font-size: 30px;
+            margin-top: 0;
+        }
+
+        img{
+            width: 150px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div id="head">
+    <pre>欢迎 {{ user.username }}       <a href="/">退出</a></pre>
+</div>
+<div id="body">
+
+    <div class="videoshow">
+        <div style="text-align: center">
+        <div>
+            <img src="{{ movie[4] }}">
+        </div>
+        <div>
+            <p>《{{ movie[0] }}》</p>
+            <a href="{{ movie[3] }}">点击播放</a>
+        </div>
+        </div>
+        <hr>
+        <div>
+            影片简介：<p>
+            {{ movie[1] }}</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
