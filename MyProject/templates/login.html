@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}登录{% endblock %}</title>
+    {% block css %}
+        <style type="text/css">
+            body {
+                background-image: url("../static/timg1.jpeg");
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                background-size: 100%;
+            }
+
+            #title {
+                font-family: 宋体, serif;
+                font-size: 50px;
+                text-align: center;
+                margin-top: 12.5%;
+            }
+
+            #form {
+                border: white solid 5px;
+                border-radius: 10px;
+                background: cadetblue;
+                text-align: center;
+                margin-left: 35%;
+                padding: 1%;
+                width: 25%;
+                height: 140px;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <h2><a href="/">返回首页</a></h2>
+    <h1 id="title">番剧推荐登录</h1>
+    <div id="form">
+        <form action="/login" method="post">
+            <p>账号：<input type="text" name="username" placeholder="请输入账号" value="{{ user.username }}"></p>
+            <p>密码：<input type="password" name="password" placeholder="请输入密码"></p>
+            <pre>{{ msg }}<br><a href="/register">注册</a>     <input type="submit" value="登录"></pre>
+        </form>
+    </div>
+{% endblock %}
+</body>
+</html>

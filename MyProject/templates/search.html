@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>搜索番剧</title>
+    <title>番剧系统</title>
     <style type="text/css">
         body {
             background-image: url("../static/timg1.jpeg");
@@ -55,11 +55,15 @@
 </head>
 <body>
 <div id="head">
-    <pre>欢迎 {{ user.username }}       <a href="/">退出</a></pre>
+    {% if user %}
+        <pre>欢迎 {{ user.username }}       <a href="/login">退出</a></pre>
+    {% else %}
+        <pre>         <a href="/login">登录</a></pre>
+    {% endif %}
 </div>
 <div id="body">
     <form name="input" action="/search" method="post">
-        <br/><br/>User Number<br>
+        <br/><br/>搜索影片或类型<br>
         <input type="text" name="moviename"/><br><br>
         <input type="submit" value="搜索"/>
     </form>
@@ -67,6 +71,7 @@
     <div class="videoshow">
         <p>
         <h2 style="text-align: center">推荐番剧</h2></p>
+        <div style="text-align: right"><a href="/movie_exhibition">查看更多</a></div>
         <div>
             {% if  movies %}
                 {% for moviename,brief,type,path,image in movies %}

@@ -2,46 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}登录{% endblock %}</title>
+    <title>{% block title %}番剧系统{% endblock %}</title>
     {% block css %}
-    <style type="text/css">
-        body {
-            background-image: url("../static/timg1.jpeg");
-            background-repeat: no-repeat;
-            background-attachment: scroll;
-            background-size: 100%;
-        }
+        <style type="text/css">
+            body {
+                background-image: url("../static/timg1.jpeg");
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: 100%;
+            }
 
-        #title {
-            font-family: 宋体, serif;
-            font-size: 50px;
-            text-align: center;
-            margin-top: 12.5%;
-        }
+            .videoshow {
+                background-color: aqua;
+                border-bottom: 5px solid #EFEFEF;
+                padding: 20px 10% 20px 20px;
+                margin: 20px 30px;
+                height: auto;
+            }
 
-        #form {
-            border: white solid 5px;
-            border-radius: 10px;
-            background: cadetblue;
-            text-align: center;
-            margin-left: 35%;
-            padding: 1%;
-            width: 25%;
-            height: 140px;
-        }
-    </style>
+            #body {
+                border: white solid 5px;
+                border-radius: 10px;
+                background-color: cadetblue;
+                text-align: center;
+                margin-top: 5%;
+                height: auto;
+            }
+
+            #head {
+                margin-top: 0;
+                background-color: cornflowerblue;
+                font-size: 30px;
+                margin-top: 0;
+            }
+
+            .anime_class {
+                padding-top: 20px;
+                display: inline-grid;
+                margin: 5px 20px;
+                width: 25%;
+                height: auto;
+                border: #EFEFEF 3px solid;
+                border-radius: 3px;
+                background-color: dodgerblue;
+            }
+
+            #image {
+                width: 150px;
+                height: 200px;
+            }
+
+        </style>
     {% endblock %}
 </head>
 <body>
-{% block body %}
-<h1 id="title">番剧推荐登录</h1>
-<div id="form">
-    <form action="/login" method="post">
-        <p>账号：<input type="text" name="username" placeholder="请输入账号" value="{{ user.username }}"></p>
-        <p>密码：<input type="password" name="password" placeholder="请输入密码" ></p>
-        <pre>{{ msg }}<br><a href="/register">注册</a>     <input type="submit" value="登录"></pre>
-    </form>
+<div id="head">
+    {% if user %}
+        <pre>欢迎 {{ user.username }}       <a href="/login">退出</a></pre>
+    {% else %}
+        <pre>         <a href="/login">登录</a></pre>
+    {% endif %}
 </div>
+{% block body %}
+    <div id="body">
+        <form name="input" action="/search" method="post">
+            <br/><br/>搜索影片或类型<br>
+            <input type="text" name="moviename"/><br><br>
+            <input type="submit" value="搜索"/>
+        </form>
+        <br/><br/>
+        <div class="videoshow">
+            <p>
+            <h2 style="text-align: center">推荐番剧</h2></p>
+            <div style="text-align: right"><a href="/movie_exhibition">查看更多</a></div>
+            <div>
+                {% if  movies %}
+                    {% for moviename,brief,type,path,image in movies %}
+                        <div class="anime_class">
+                            <a href="{{ url_for('movie_brief') }}?moviename={{ moviename }}&username={{ user.username }}"
+                                    {% if user %} target="_blank" {% endif %}>
+                                <img id="image" src="{{ image }}">
+                                <p class="title">{{ moviename }}</p>
+                            </a>
+                            <p class="Introduction">简介：{{ brief[0:100] }}...</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="height: 300px;padding-top: 150px"><h3>没有找到相应的结果</h3></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 </body>
 </html>

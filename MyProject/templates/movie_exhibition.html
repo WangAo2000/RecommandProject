@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+{% block title %}影片展示{% endblock %}
+{% block css %}
+    {{ super() }}
+    <style>
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            display: inline;
+        }
+
+        li a {
+            text-align: center;
+            padding: 14px 16px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div id="body">
+        <form name="input" action="/search" method="post">
+            <br/><br/>搜索影片或类型<br>
+            <input type="text" name="moviename"/><br><br>
+            <input type="submit" value="搜索"/>
+        </form>
+        <br/><br/>
+        <div class="videoshow">
+            <p>
+            <h2 style="text-align: center">全部番剧</h2></p>
+            <div style="text-align: left">
+                <ul>
+                    <li><a href="/movie_exhibition">全部</a></li>
+                    <li><a href="/movie_exhibition?type=动漫">动漫</a></li>
+                    <li><a href="/movie_exhibition?type=喜剧">喜剧</a></li>
+                    <li><a href="/movie_exhibition?type=战争">战争</a></li>
+                </ul>
+            </div>
+            <div>
+                {% if  movies %}
+                    {% for moviename,brief,type,path,image in movies %}
+                        <div class="anime_class">
+                            <a href="{{ url_for('movie_brief') }}?moviename={{ moviename }}&username={{ user.username }}"
+                                    {% if user %} target="_blank" {% endif %}>
+                                <img id="image" src="{{ image }}">
+                                <p class="title">{{ moviename }}</p>
+                            </a>
+                            <p class="Introduction">简介：{{ brief[0:100] }}...</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="height: 300px;padding-top: 150px"><h3>没有找到相应的结果</h3></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
