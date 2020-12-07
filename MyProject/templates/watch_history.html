@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+
+{% block css %}
+    {{ super() }}
+{% endblock %}
+
+{% block head %}
+    <div id="head">
+        {% if user %}
+            <pre> 欢迎 {{ user.username }}       <a href="/">返回首页</a> </pre>
+        {% else %}
+            <pre>         <a href="/login">登录</a></pre>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div id="body">
+
+        <div class="videoshow">
+            <p>
+            <h2 style="text-align: center">观看历史</h2></p>
+            <div>
+                {% if  movies %}
+                    {% for moviename,brief,type,path,image in movies %}
+                        <div class="anime_class">
+                            <a href="{{ url_for('movie_brief') }}?moviename={{ moviename }}&username={{ user.username }}"
+                                    {% if user %} target="_blank" {% endif %}>
+                                <img id="image" src="{{ image }}">
+                                <p class="title">{{ moviename }}</p>
+                            </a>
+                            <p class="Introduction">简介：{{ brief[0:100] }}...</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="height: 300px;padding-top: 150px"><h3>没有找到相应的结果</h3></div>
+                {% endif %}
+            </div>
+            <div>
+                <pre style="font-size: 20px">{% if page!=1 %}<a href="/watch_history?type={{ movie_type }}&page={{ page - 1 }}">上一页</a>{% endif %}   {{ page }}   {% if page != last_page %}<a href="/watch_history?type={{ movie_type }}&page={{ page + 1 }}">下一页</a>{% endif %} </pre>
+            </div>
+        </div>
+    </div>
+{% endblock %}

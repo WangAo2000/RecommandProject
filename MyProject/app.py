@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, g
 from util import Users, Database
+import math
 
 app = Flask(__name__)
 app.secret_key = 'this is a secret key'
-vaild_path = ['/register_succeed', '/brief']
+vaild_path = ['/register_succeed', '/brief', "/watch_history"]
 
 
 @app.before_request
@@ -28,6 +29,18 @@ def before_request():
                 is_new = cursor.fetchall()
                 # 判断是否是新用户
                 if is_new:
+                    # 查询session中的用户的推荐影片保存到g对象中
+                    sql = "select movies.moviename,brief,type,path,image from movies " \
+                          "where  type=" \
+                          "(select type from movies " \
+                          "join user_movie on movies.moviename=user_movie.moviename " \
+                          "where username='%s' ORDER BY record desc LIMIT 1)limit 3;" \
+                          % g.user.username
+                    cursor.execute(sql)
+                    movies = cursor.fetchall()
+                    # 保存已经有观看记录的用户推荐影片
+                    g.movies = movies
+                else:
                     # 查找点击最多的3个影片
                     sql = "select movies.moviename,brief,type,path,image " \
                           "from movies join user_movie on movies.moviename=user_movie.moviename " \
@@ -35,20 +48,6 @@ def before_request():
                     cursor.execute(sql)
                     movies = cursor.fetchall()
                     # 保存新用户展示的影片
-                    g.movies = movies
-                else:
-                    # 查询session中的用户的推荐影片保存到g对象中
-                    sql = "select movies.moviename,brief,type,path,image from movies " \
-                          "join user_movie on movies.moviename=user_movie.moviename " \
-                          "where username='%s' " \
-                          "and type=" \
-                          "(select type from movies " \
-                          "join user_movie on movies.moviename=user_movie.moviename " \
-                          "where username='%s' ORDER BY record desc LIMIT 1)limit 3;" \
-                          % (g.user.username, g.user.username)
-                    cursor.execute(sql)
-                    movies = cursor.fetchall()
-                    # 保存已经有观看记录的用户推荐影片
                     g.movies = movies
         else:
             with Database(database='recommend') as cursor:
@@ -92,6 +91,7 @@ def register():
     return render_template('register.html')
 
 
+# 首页
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if session:
@@ -135,6 +135,7 @@ def register_succeed():
     return render_template('register_succeed.html')
 
 
+# 搜索影片
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
@@ -167,7 +168,7 @@ def movie_brief():
             # 如果有点击量加1
             if like:
                 sql = "update user_movie set record=record+1 where username='%s' and moviename='%s';" % (
-                username, moviename)
+                    username, moviename)
                 cursor.execute(sql)
             # 没有就将影片加入用户中
             else:
@@ -182,19 +183,54 @@ def movie_brief():
     return render_template('brief.html', user=g.user, movie='')
 
 
+# 全部影片
 @app.route('/movie_exhibition')
 def movie_exhibition():
     movie_type = request.args.get('type')
+    page = request.args.get('page', default=1)
+    page = int(page)
     with Database(database='recommend') as cursor:
-        if movie_type:
-            sql = "select * from movies where type='%s'" % movie_type
+        # 判断展示的类型
+        if movie_type == 'None' or movie_type == None:
+            sql = "select * from movies limit %d,%d" % (3 * (page - 1), 3 * (page - 1) + 3)
         else:
-            sql = "select * from movies"
+            sql = "select * from movies where type='%s' limit %d,%d" % (movie_type, (page - 1) * 3, (page - 1) * 3 + 3)
         cursor.execute(sql)
         movies = cursor.fetchall()
+        # 获取总页数
+        if movie_type == 'None' or movie_type == None:
+            sql = "select count(*) from movies"
+        else:
+            sql = "select count(*) from movies where type='%s'" % movie_type
+        cursor.execute(sql)
+        movie_total_tuple = cursor.fetchone()
+        movie_total = movie_total_tuple[0]
+        last_page = math.ceil(movie_total / 3)
     if session:
-        return render_template('movie_exhibition.html', user=g.user, movies=movies)
-    return render_template('movie_exhibition.html', user='', movies=movies)
+        return render_template('movie_exhibition.html', user=g.user, movies=movies, page=page, movie_type=movie_type,
+                               last_page=last_page)
+    return render_template('movie_exhibition.html', user='', movies=movies, page=page, movie_type=movie_type,
+                           last_page=last_page)
+
+
+# 观看历史
+@app.route('/watch_history')
+def watch_history():
+    page = request.args.get('page', default=1)
+    page = int(page)
+    with Database(database='recommend') as cursor:
+        sql = "select movies.moviename,brief,type,path,image " \
+              "from movies join user_movie on movies.moviename=user_movie.moviename " \
+              "where username='%s' limit %d,%d" % (g.user.username, 3 * (page - 1), 3 * (page - 1) + 3)
+        cursor.execute(sql)
+        movies = cursor.fetchall()
+        # 获取总页数
+        sql = "select count(*) from movies join user_movie on movies.moviename=user_movie.moviename where username='%s'" % g.user.username
+        cursor.execute(sql)
+        movie_total_tuple = cursor.fetchone()
+        movie_total = movie_total_tuple[0]
+        last_page = math.ceil(movie_total / 3)
+    return render_template('watch_history.html', user=g.user, page=page, last_page=last_page, movies=movies)
 
 
 if __name__ == '__main__':

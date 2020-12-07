@@ -56,7 +56,7 @@
 <body>
 <div id="head">
     {% if user %}
-        <pre>欢迎 {{ user.username }}       <a href="/login">退出</a></pre>
+        <pre>欢迎 {{ user.username }}    <a href="/watch_history">观看历史</a>          <a href="/login">退出</a></pre>
     {% else %}
         <pre>         <a href="/login">登录</a></pre>
     {% endif %}

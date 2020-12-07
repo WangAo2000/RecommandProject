@@ -52,6 +52,9 @@
                     <div style="height: 300px;padding-top: 150px"><h3>没有找到相应的结果</h3></div>
                 {% endif %}
             </div>
+            <div>
+                <pre style="font-size: 20px">{% if page!=1 %}<a href="/movie_exhibition?type={{ movie_type }}&page={{ page - 1 }}">上一页</a>{% endif %}   {{ page }}   {% if page != last_page %}<a href="/movie_exhibition?type={{ movie_type }}&page={{ page + 1 }}">下一页</a>{% endif %} </pre>
+            </div>
         </div>
     </div>
 {% endblock %}
