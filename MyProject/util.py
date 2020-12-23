@@ -10,9 +10,15 @@ class Database(object):
         return self.cursor
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.conn.commit()
-        self.cursor.close()
-        self.conn.close()
+        if exc_type is not None:
+            self.conn.rollback()
+        try:
+            self.conn.commit()
+        except Exception:
+            self.conn.rollback()
+        finally:
+            self.cursor.close()
+            self.conn.close()
 
 
 class Users(object):
